@@ -69,7 +69,7 @@ ros2 launch controller_pkg control.launch.py
 
 ros2 run visualisation/continuum.py
 
-#Manual Mapping
+## Manual Mapping
 
 
 | **Function**              | **Input**                      | **Action**                  |
@@ -89,7 +89,7 @@ ros2 run visualisation/continuum.py
 | **Camera Control**        | D-Pad Left / Right             | Swivel Camera Left / Right  |
 |                           | D-Pad Up / Down                | Tilt Camera Up / Down       |
 
-#Semi-Autonomous Mapping
+## Semi-Autonomous Mapping
 
 | **Function**              | **Input**                     | **Action**                 |
 | ------------------------- | ----------------------------- | -------------------------- |
