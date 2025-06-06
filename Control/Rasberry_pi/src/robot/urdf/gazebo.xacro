@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+ 
+ <!-- GAZEBO PLUGINS -->
+  <xacro:property name="bias_mean" value="0.0000075" />
+
+  <!-- List all movable joints -->
+  <!-- https://gazebosim.org/api/gazebo/6/classignition_1_1gazebo_1_1systems_1_1JointStatePublisher.html -->
+    <gazebo>
+        <plugin filename="ignition-gazebo-joint-state-publisher-system" name="ignition::gazebo::systems::JointStatePublisher">
+            <update_rate>100</update_rate>
+            <!-- Inching Unit 1 (number="1") -->
+            <joint_name>incher1_joint_1</joint_name>
+            <joint_name>incher2_joint_1</joint_name>
+            <joint_name>incher3_joint_1</joint_name>
+            <joint_name>incher4_joint_1</joint_name>
+            <joint_name>gripper_topL_outside_joint_1</joint_name>
+            <joint_name>gripper_topR_outside_joint_1</joint_name>
+            <joint_name>gripper_topL_inside_joint_1</joint_name>
+            <joint_name>gripper_topR_inside_joint_1</joint_name>
+            <joint_name>gripper_bottomL_outside_joint_1</joint_name>
+            <joint_name>gripper_bottomR_outside_joint_1</joint_name>
+            <joint_name>gripper_bottomL_inside_joint_1</joint_name>
+            <joint_name>gripper_bottomR_inside_joint_1</joint_name>
+            <!-- Continuum segments -->
+            <joint_name>joint_1</joint_name>
+            <joint_name>joint_2</joint_name>
+            <joint_name>joint_3</joint_name>
+            <joint_name>joint_4</joint_name>
+            <joint_name>joint_5</joint_name>
+            <joint_name>joint_6</joint_name>
+            <joint_name>joint_7</joint_name>
+            <joint_name>joint_8</joint_name>
+            <joint_name>joint_9</joint_name>
+            <joint_name>joint_10</joint_name>
+            <joint_name>joint_11</joint_name>
+            <!-- Inching Unit 2 (number="2") -->
+            <joint_name>incher1_joint_2</joint_name>
+            <joint_name>incher2_joint_2</joint_name>
+            <joint_name>incher3_joint_2</joint_name>
+            <joint_name>incher4_joint_2</joint_name>
+            <joint_name>gripper_topL_outside_joint_2</joint_name>
+            <joint_name>gripper_topR_outside_joint_2</joint_name>
+            <joint_name>gripper_topL_inside_joint_2</joint_name>
+            <joint_name>gripper_topR_inside_joint_2</joint_name>
+            <joint_name>gripper_bottomL_outside_joint_2</joint_name>
+            <joint_name>gripper_bottomR_outside_joint_2</joint_name>
+            <joint_name>gripper_bottomL_inside_joint_2</joint_name>
+            <joint_name>gripper_bottomR_inside_joint_2</joint_name>
+            <!-- Camera Assembly -->
+            <joint_name>motor_frame_1_camera_motor_1</joint_name>
+            <joint_name>motor_frame_2_camera_motor_2</joint_name>
+            <topic>/model/robot/joint_state</topic>
+            
+        </plugin>
+    </gazebo>
+</robot>

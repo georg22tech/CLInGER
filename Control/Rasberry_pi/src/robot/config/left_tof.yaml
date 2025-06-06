@@ -1,0 +1,9 @@
+# slam1.yaml
+slam_toolbox:
+  ros__parameters:
+    scan_topic: /left_tof/scan
+    map_frame: left_map
+    odom_frame: odom1
+    base_frame: left_top_tof
+    use_scan_matching: true
+    use_sim_time: true

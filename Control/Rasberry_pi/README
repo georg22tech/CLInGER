@@ -1,0 +1,26 @@
+Run the following 
+
+Terminal 1 - running container assuming image is already built (change container_name and image_name appropiately):
+
+xhost +local:ros\  
+
+docker run -it \
+  --user ros \
+  --rm \
+  --network=host \
+  --ipc=host \
+  -v $PWD/raspberry_pi_ws:/raspberry_pi_ws \
+  -v /tmp/.X11-unix:/tmp/.X11-unix:rw \
+  -v /dev/input:/dev/input:rw \
+  -e DISPLAY=$DISPLAY \
+  --privileged \
+  --name <container_name> <image_name>
+
+ros2 launch urdf_launch display.launch.py urdf_package:=intergration_urdf_description urdf_package_path:=urdf/intergration.urdf.xacro
+
+
+Terminal 2 - to run second command line (make sure to use same container name as previous):
+
+docker exec -it --user ros <container_name> bash
+
+ros2 launch controller_pkg controller.launch.py 

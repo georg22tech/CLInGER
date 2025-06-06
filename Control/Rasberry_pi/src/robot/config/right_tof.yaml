@@ -1,0 +1,8 @@
+slam_toolbox:
+  ros__parameters:
+    scan_topic: /right_tof/scan
+    map_frame: right_map
+    odom_frame: odom1
+    base_frame: right_top_tof
+    use_scan_matching: true
+    use_sim_time: true

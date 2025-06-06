@@ -1,0 +1,220 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="robot">
+
+    <xacro:property name="chassis_width" value="0.25"/>
+    <xacro:property name="chassis_depth" value="0.01"/>
+    <xacro:property name="chassis_mass" value="0.2"/>
+    <xacro:property name="incher_width_i" value="0.0075"/>
+    <xacro:property name="incher_length_i" value="0.125"/>
+    <xacro:property name="incher_radius_o" value="0.02"/>
+    <xacro:property name="incher_length_o" value="0.2"/>
+    <xacro:property name="disk_length" value="0.01" />
+    <xacro:property name="disk_radius" value="0.05" />
+    <xacro:property name="segment_length" value="0.05" />
+    <xacro:property name="number_joints" value="11" />
+
+    <xacro:macro name="box_inertia" params="m w h d">
+        <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${m}"/>
+        <inertia ixx="${(m/12) * (h*h + d*d)}" ixy="0.0" ixz="0.0" iyy="${(m/12) * (w*w + d*d)}" iyz="0.0" izz="${(m/12) * (w*w + h*h)}"/>
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="cylinder_inertia" params="m r l">
+        <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <mass value="${m}"/>
+        <inertia ixx="${(m/12) * (3*r*r + l*l)}" ixy="0" ixz="0" iyy="${(m/12) * (3*r*r + l*l)}" iyz="0" izz="${(m/2) * (l*l)}"/>
+        </inertial>
+    </xacro:macro>
+
+    <xacro:macro name="sphere_inertia" params="m r">
+        <inertial>
+        <mass value="${m}"/>
+        <inertia ixx="${(2/5) * m * (r*r)}" ixy="0.0" ixz="0.0" iyy="${(2/5) * m * (r*r)}" iyz="0.0" izz="${(2/5) * m * (r*r)}"/>
+        </inertial>
+    </xacro:macro>
+
+    <!--Xacro Plugin Files-->
+    <xacro:include filename="$(find robot)/urdf/inching_unit.xacro" />
+    <xacro:include filename="$(find robot)/urdf/camera.xacro" />
+    <xacro:include filename="$(find robot)/urdf/gazebo.xacro" />
+    <xacro:include filename="$(find robot)/urdf/continuum.xacro" />
+    <xacro:include filename="$(find robot)/urdf/3dof.xacro" />
+
+    <!--base link-->
+    <link name="base_link"/>
+    <link name="base_footprint_link"/>
+
+    <joint name="base_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="base_footprint_link"/>
+    </joint>
+
+    <!--Inching Unit 1-->
+    <xacro:full_inching_unit number="1" base="base_footprint_link"/>
+
+    <!--Turning Mechanism-->
+    <xacro:continuum base="inching_unit_top_1"/>
+    <!--<xacro:turning_mech base="inching_unit_top_1"/>--> <!--Use for 3dof-->
+
+    <!--Inching Unit 2-->
+    <xacro:full_inching_unit number="2" base="link_11"/>
+    <!--<xacro:full_inching_unit number="2" base="acc_2_body"/>--> <!--Use for 3dof-->
+    <!--Camera System-->
+    <xacro:motor_camera_system base="inching_unit_top_2"/>
+
+    <!--Sensor Links-->
+    <link name="left_top_tof">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/VL53l1X.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/VL53l1X.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.4" w="0.05" h="0.05" d="0.05"/>
+    </link>
+
+    <joint name="inching_unit_top_left_tof" type="fixed">
+        <parent link="inching_unit_top_2"/>
+        <child link="left_top_tof"/>
+        <origin xyz="0 0.125 0" rpy="0 1.57 0"/>
+    </joint>
+
+    <link name="right_top_tof">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/VL53l1X.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/VL53l1X.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.4" w="0.05" h="0.05" d="0.05"/>
+    </link>
+
+    <joint name="inching_unit_top_right_tof" type="fixed">
+        <parent link="inching_unit_top_2"/>
+        <child link="right_top_tof"/>
+        <origin xyz="0 -0.125 0" rpy="0 -1.57 0"/>
+    </joint>
+
+    <link name="left_bottom_tof">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/VL53l1X.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/VL53l1X.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.4" w="0.05" h="0.05" d="0.05"/>
+    </link>
+
+    <joint name="inching_unit_bottom_left_tof" type="fixed">
+        <parent link="inching_unit_top_1"/>
+        <child link="left_bottom_tof"/>
+        <origin xyz="0 0.125 0" rpy="0 -1.57 0"/>
+    </joint>
+
+    <link name="right_bottom_tof">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/VL53l1X.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/VL53l1X.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.4" w="0.05" h="0.05" d="0.05"/>
+    </link>
+
+    <joint name="inching_unit_bottom_right_tof" type="fixed">
+        <parent link="inching_unit_top_1"/>
+        <child link="right_bottom_tof"/>
+        <origin xyz="0 -0.125 0" rpy="0 -1.57 0"/>
+    </joint>
+
+    <link name="distance_top">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/LUNA.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/LUNA.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.4" w="0.05" h="0.05" d="0.05"/>
+    </link>
+
+    <joint name="top_distance" type="fixed">
+        <parent link="inching_unit_top_2"/>
+        <child link="distance_top"/>
+        <origin xyz="0 0.05 0" rpy="1.57 0 0"/>
+    </joint>
+
+    <link name="distance_bottom">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/LUNA.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="red">
+                <color rgba="1 0 0 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/LUNA.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.4" w="0.05" h="0.05" d="0.05"/>
+    </link>
+
+    <joint name="bottom_distance" type="fixed">
+        <parent link="inching_unit_bottom_1"/>
+        <child link="distance_bottom"/>
+        <origin xyz="0 0 0" rpy="1.57 3.14 0"/>
+    </joint>
+
+</robot>

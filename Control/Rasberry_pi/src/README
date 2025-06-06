@@ -1,0 +1,9 @@
+Run:
+For the continuum model:
+ros2 launch urdf_launch display.launch.py urdf_package:=intergration_urdf_description urdf_package_path:=urdf/intergration.urdf.xacro
+or
+
+For the new model:
+ros2 launch urdf_launch display.launch.py urdf_package:=intergrated_description urdf_package_path:=urdf/intergrated.urdf.xacro
+2nd Terminal run:
+ros2 launch turning_controller_pkg controller.launch.py 

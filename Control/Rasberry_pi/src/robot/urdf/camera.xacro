@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:macro name="motor_camera_system" params="base">
+    
+
+    <!-- Motor Frame 1 -->
+    <link name="motor_frame_1">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/Servo.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/Servo.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.4" w="0.05" h="0.05" d="0.05"/>
+    </link>
+
+    <!-- Joint for motor_frame_1 with base -->
+    <joint name="inching_unit_2_motor_frame_1" type="fixed">
+        <parent link="${base}"/>
+        <child link="motor_frame_1"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+    </joint>
+
+    <!-- Camera Motor 1 -->
+    <link name="camera_motor_1">
+        <visual>
+            <origin xyz="0.09 0.09 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/top_frame.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.09 0.09 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/top_frame.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.4" w="0.01" h="0.03" d="0.05"/>
+    </link>
+
+    <!-- Revolute joint for motor_frame_1 and camera_motor_1 -->
+    <joint name="motor_frame_1_camera_motor_1" type="revolute">
+        <parent link="motor_frame_1"/>
+        <child link="camera_motor_1"/>
+        <origin rpy="0 0 0" xyz="0 0 0.02"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="10" velocity="5" lower="-1.57" upper="1.57"/>
+    </joint>
+
+    <!-- Motor Frame 2 -->
+    <link name="motor_frame_2">
+        <visual>
+            <origin xyz="-0.001 0.005 0.011" rpy="-3.14 1.57 1.57"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/Servo.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/Servo.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.4" w="0.05" h="0.05" d="0.05"/>
+    </link>
+
+    <!-- Joint for camera_motor_1 and motor_frame_2 -->
+    <joint name="camera_motor_1_motor_frame_2" type="fixed">
+        <parent link="camera_motor_1"/>
+        <child link="motor_frame_2"/>
+        <origin rpy="1.57 1.57 -1.57" xyz="0.011 0 0.015"/>
+    </joint>
+
+    <!-- Camera Motor 2 -->
+    <link name="camera_motor_2">
+        <visual>
+            <origin xyz="0.23 0 -0.045" rpy="3.14 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/arm.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.23 0 -0.045" rpy="3.14 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/arm.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.4" w="0.01" h="0.03" d="0.05"/>
+    </link>
+
+    <!-- Revolute joint for motor_frame_2 and camera_motor_2 -->
+    <joint name="motor_frame_2_camera_motor_2" type="revolute">
+        <parent link="motor_frame_2"/>
+        <child link="camera_motor_2"/>
+        <origin rpy="0 1.57 0" xyz="0 0 0.015"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="10" velocity="5" lower="-1.57" upper="1.57"/>
+    </joint>
+
+    <!-- Camera Link -->
+    <link name="camera_link">
+        <visual>
+            <origin xyz="0.16 -0.005 -0.05" rpy="3.14 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/Camera.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+            <material name="white">
+                <color rgba="1 1 1 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0.23 0 -0.045" rpy="3.14 0 0"/>
+            <geometry>
+                <mesh filename="package://robot/meshes/Camera.stl" scale="0.001 0.001 0.001"/>
+            </geometry>
+        </collision>
+        <xacro:box_inertia m="0.4" w="0.01" h="0.03" d="0.05"/>
+    </link>
+
+    <!-- Joint for camera_motor_2 and camera_link -->
+    <joint name="camera_motor_2_camera_link" type="fixed">
+        <parent link="camera_motor_2"/>
+        <child link="camera_link"/>
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+    </joint>
+
+  </xacro:macro>
+
+</robot>

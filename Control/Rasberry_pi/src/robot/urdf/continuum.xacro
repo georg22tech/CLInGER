@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:macro name="continuum" params="base">
+        <xacro:macro name="segment" params="index">
+            <link name="link_${index}">
+            <visual>
+                <geometry>
+                <cylinder length="${disk_length}" radius="${disk_radius}"/>
+                <origin rpy="0 0 0" xyz="0 0 0"/>
+                </geometry>
+            </visual>
+            </link>
+            <joint name="joint_${index}" type="revolute">
+            <parent link="link_${index-1}"/>
+            <child link="link_${index}"/>
+            <axis xyz="1 0 0"/>
+            <origin rpy="0 0 0" xyz="0 0 0.05"/>
+            <limit effort="10.0" velocity="2.0" lower="-${segment_length/disk_radius}" upper="${segment_length/disk_radius}"/>
+            </joint>
+        </xacro:macro>
+
+        <link name="link_0"/>
+        <joint name="base" type="fixed">
+            <parent link="${base}"/>
+            <child link="link_0"/>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+        </joint>
+
+        <xacro:segment index="1"/>
+        <xacro:segment index="2"/>
+        <xacro:segment index="3"/>
+        <xacro:segment index="4"/>
+        <xacro:segment index="5"/>
+        <xacro:segment index="6"/>
+        <xacro:segment index="7"/>
+        <xacro:segment index="8"/>
+        <xacro:segment index="9"/>
+        <xacro:segment index="10"/>
+        <xacro:segment index="11"/>
+    </xacro:macro>
+
+</robot>
