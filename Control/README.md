@@ -69,6 +69,7 @@ ros2 launch controller_pkg control.launch.py
 
 ros2 run visualisation/continuum.py
 
+#Manual Mapping
 
 
 | **Function**              | **Input**                      | **Action**                  |
@@ -87,4 +88,16 @@ ros2 run visualisation/continuum.py
 |                           | Right Joystick (Vertical Axis) | Move Inching Unit 2 Up/Down |
 | **Camera Control**        | D-Pad Left / Right             | Swivel Camera Left / Right  |
 |                           | D-Pad Up / Down                | Tilt Camera Up / Down       |
+
+#Semi-Autonomous Mapping
+
+| **Function**              | **Input**                     | **Action**                 |
+| ------------------------- | ----------------------------- | -------------------------- |
+| **Inching System Motion** | Left Joystick (Vertical Axis) | Move Entire System Up/Down |
+| **Continuum Movement**    | 🔺 Triangle                   | Move Continuum to -45°     |
+|                           | ⬜ Square                      | Move Continuum to -90°     |
+|                           | 🟥 Circle                     | Move Continuum to +45°     |
+|                           | ❌ Cross                       | Move Continuum to +90°     |
+| **Camera Control**        | D-Pad Left / Right            | Swivel Camera Left / Right |
+|                           | D-Pad Up / Down               | Tilt Camera Up / Down      |
 
