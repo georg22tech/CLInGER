@@ -1,0 +1,27 @@
+%syms s;
+s = 1;
+kappa = 0;
+T = [cos(kappa*s) 0 sin(kappa*s) ((1 - cos(kappa*s))/kappa);
+    0 1 0 0;
+    -sin(kappa*s) 0 cos(kappa*s) (sin(kappa*s)/kappa);
+    0 0 0 1];
+%set initial position
+t = [0; 0; 1];
+n = [cos(phi); sin(phi); 0];
+b = cross(t, n);
+p = [t; n; b];
+%initialise joint variables
+l_0 = [310 310];
+step_delta_l = 3.14*2*5/10;
+l = l_0;
+for i=1:1:100
+    l = l - [step_delta_l -1*step_delta_l];
+    kappa = sqrt(((l(1) - l(2))/(d*(l(1)+l(2))))^2);
+    T = [cos(kappa*s) 0 sin(kappa*s) ((1 - cos(kappa*s))/kappa);
+    0 1 0 0;
+    -sin(kappa*s) 0 cos(kappa*s) (sin(kappa*s)/kappa);
+    0 0 0 1];
+    p_t = [p; 1];
+    p = [p_t(1); p_t(2); p_t(3)];
+    plot3 (p);
+end
